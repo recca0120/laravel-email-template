@@ -1,7 +1,7 @@
 {
     "name": "recca0120/email-template",
     "description": "Email Template for Laravel 5",
-    "keywords": [],
+    "keywords": ["laravel", "email", "database", "template"],
     "license": "MIT",
     "authors": [
         {
@@ -11,6 +11,7 @@
     ],
     "require": {
         "php": ">=5.4.0",
+        "illuminate/database": "~5.0",
         "illuminate/filesystem": "~5.0",
         "illuminate/mail": "~5.0",
         "illuminate/support": "~5.0"
