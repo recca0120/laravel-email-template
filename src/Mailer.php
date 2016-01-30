@@ -47,8 +47,8 @@ class Mailer
     /**
      * construct.
      *
-     * @param \Illuminate\Contracts\Mail\Mailer $mailer
-     * @param \Illuminate\Filesystem\Filesystem $filesystem
+     * @param \Illuminate\Contracts\Mail\Mailer  $mailer
+     * @param \Illuminate\Filesystem\Filesystem  $filesystem
      * @param \Illuminate\Contracts\View\Factory $viewFactory
      */
     public function __construct(
@@ -80,7 +80,8 @@ class Mailer
     /**
      * attributes.
      *
-     * @param  string $slug [description]
+     * @param string $slug [description]
+     *
      * @return \Recca0120\EmailTemplate\EmailTemplate
      */
     public function getAttributes($slug)
@@ -96,7 +97,8 @@ class Mailer
     /**
      * get view.
      *
-     * @param  string $slug
+     * @param string $slug
+     *
      * @return string
      */
     public function getView($slug)
@@ -115,12 +117,13 @@ class Mailer
     /**
      * send.
      *
-     * @param  string $slug
-     * @param  array $data
-     * @param  Closure $closure
+     * @param string  $slug
+     * @param array   $data
+     * @param Closure $closure
+     *
      * @return bool
      */
-    public function send($slug, $data = [], Closure $closure)
+    public function send($slug, $data, Closure $closure)
     {
         $view = $this->getView($slug);
         $attributes = $this->getAttributes($slug);
@@ -137,8 +140,9 @@ class Mailer
     /**
      * _call.
      *
-     * @param  string $method
-     * @param  array $parameters
+     * @param string $method
+     * @param array  $parameters
+     *
      * @return mixed
      */
     public function __call($method, $parameters)
