@@ -47,9 +47,9 @@ class Mailer
     /**
      * construct.
      *
-     * @param \Illuminate\Contracts\Mail\Mailer            $mailer
-     * @param \Illuminate\Filesystem\Filesystem            $filesystem
-     * @param \Illuminate\Contracts\View\Factory           $viewFactory
+     * @param \Illuminate\Contracts\Mail\Mailer  $mailer
+     * @param \Illuminate\Filesystem\Filesystem  $filesystem
+     * @param \Illuminate\Contracts\View\Factory $viewFactory
      */
     public function __construct(
         MailerContract $mailer,
@@ -122,9 +122,9 @@ class Mailer
     /**
      * send.
      *
-     * @param string           $slug
-     * @param array            $data
-     * @param \Closure|string  $callback
+     * @param string          $slug
+     * @param array           $data
+     * @param \Closure|string $callback
      *
      * @return void
      */

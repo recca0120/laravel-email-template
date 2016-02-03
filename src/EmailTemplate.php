@@ -3,6 +3,7 @@
 namespace Recca0120\EmailTemplate;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class EmailTemplate extends Model
 {
@@ -12,4 +13,16 @@ class EmailTemplate extends Model
      * @var array
      */
     protected $fillable = ['slug', 'subject', 'from_address', 'from_name', 'content'];
+
+    /**
+     * Set slug attribute.
+     *
+     * @param string $value
+     *
+     * @return void
+     */
+    public function setSlugAttribute($value)
+    {
+        $this->attributes['slug'] = Str::slug($value);
+    }
 }
