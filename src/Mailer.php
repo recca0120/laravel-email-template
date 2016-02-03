@@ -2,7 +2,7 @@
 
 namespace Recca0120\EmailTemplate;
 
-use Closure;
+use EmailTemplate as Model;
 use Illuminate\Contracts\Mail\Mailer as MailerContract;
 use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Filesystem\Filesystem;
@@ -38,26 +38,26 @@ class Mailer
     protected $viewFactory;
 
     /**
-     * view cache.
+     * cache.
      *
      * @var array
      */
-    protected $viewCache = [];
+    protected static $cached = [];
 
     /**
      * construct.
      *
-     * @param \Illuminate\Contracts\Mail\Mailer  $mailer
-     * @param \Illuminate\Filesystem\Filesystem  $filesystem
-     * @param \Illuminate\Contracts\View\Factory $viewFactory
+     * @param \Illuminate\Contracts\Mail\Mailer            $mailer
+     * @param \Illuminate\Filesystem\Filesystem            $filesystem
+     * @param \Illuminate\Contracts\View\Factory           $viewFactory
      */
     public function __construct(
         MailerContract $mailer,
         Filesystem $filesystem,
         ViewFactory $viewFactory
     ) {
-        $this->filesystem = $filesystem;
         $this->mailer = $mailer;
+        $this->filesystem = $filesystem;
         $this->viewFactory = $viewFactory;
         $this->viewFactory->addNamespace($this->viewNamespace, $this->storagePath());
     }
@@ -69,7 +69,12 @@ class Mailer
      */
     public function storagePath()
     {
-        $path = storage_path('email-template');
+        if (function_exists('storage_path') === true) {
+            $path = storage_path('email-template');
+        } else {
+            $path = getcwd().'/email-template';
+        }
+
         if ($this->filesystem->isDirectory($path) === false) {
             $this->filesystem->makeDirectory($path, 0755, true);
         }
@@ -78,20 +83,20 @@ class Mailer
     }
 
     /**
-     * attributes.
+     * model.
      *
-     * @param string $slug [description]
+     * @param string $slug
      *
      * @return \Recca0120\EmailTemplate\EmailTemplate
      */
     public function getAttributes($slug)
     {
-        if (empty($this->viewCache[$slug]) === true) {
-            $this->viewCache[$slug] = EmailTemplate::$twhere('slug', '=', $slug)
+        if (empty(static::$cached[$slug]) === true) {
+            static::$cached[$slug] = EmailTemplate::where('slug', '=', $slug)
                 ->first();
         }
 
-        return $this->viewCache[$slug];
+        return static::$cached[$slug];
     }
 
     /**
@@ -117,13 +122,13 @@ class Mailer
     /**
      * send.
      *
-     * @param string  $slug
-     * @param array   $data
-     * @param Closure $closure
+     * @param string           $slug
+     * @param array            $data
+     * @param \Closure|string  $callback
      *
-     * @return bool
+     * @return void
      */
-    public function send($slug, $data, Closure $closure)
+    public function send($slug, $data, $closure)
     {
         $view = $this->getView($slug);
         $attributes = $this->getAttributes($slug);
