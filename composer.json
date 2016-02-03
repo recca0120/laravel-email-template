@@ -1,6 +1,6 @@
 {
     "name": "recca0120/email-template",
-    "description": "Email Template for Laravel 5",
+    "description": "email view from database",
     "keywords": ["laravel", "email", "database", "template"],
     "license": "MIT",
     "authors": [
