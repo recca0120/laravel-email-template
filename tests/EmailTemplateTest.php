@@ -53,7 +53,6 @@ class EmailTemplateTest extends PHPUnit_Framework_TestCase
 
         $mailer = new \Recca0120\EmailTemplate\Mailer($mailer, $filesystem, $viewFactory);
         $mailer->send($slug, [], function () {
-
         });
         $model = $mailer->getAttributes($slug);
         $this->assertEquals(array_except($model->toArray(), ['id', 'created_at', 'updated_at']), $data);
